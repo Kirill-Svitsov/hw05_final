@@ -162,4 +162,3 @@ class PostCreateFormTests(TestCase):
             post.comments.count(),
             comments_count + 1,
         )
-

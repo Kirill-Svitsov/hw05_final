@@ -94,4 +94,3 @@ class PostURLTests(TestCase):
         # Проверяем, что не авторизованному пользователю при запросе
         # страницы с подписками происходит редирект
         self.assertEqual(second_response.status_code, HTTPStatus.FOUND)
-
