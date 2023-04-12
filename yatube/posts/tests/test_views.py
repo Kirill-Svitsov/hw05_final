@@ -223,7 +223,9 @@ class PostViewsTests(TestCase):
         posts_with_cache = response_cache_one.content
         self.assertEqual(posts_with_cache, posts)
         cache.clear()
-        response_without_cache = self.authorized_client.get(reverse('posts:index'))
+        response_without_cache = self.authorized_client.get(
+            reverse('posts:index')
+        )
         new_posts = response_without_cache.content
         self.assertNotEqual(posts_with_cache, new_posts)
 
@@ -266,7 +268,10 @@ class FollowTests(TestCase):
         Авторизованный пользователь может подписываться на других пользователей
         """
         self._subscribe(True, self.author)
-        self.assertEqual(Follow.objects.filter(user=self.user, author=self.author).count(), 1)
+        self.assertEqual(
+            Follow.objects.filter(user=self.user, author=self.author).count(),
+            1
+        )
 
     def test_ability_unsubscribe(self):
         """

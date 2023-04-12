@@ -8,7 +8,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from ..models import Follow, Group, Post, User
+from ..models import Group, Post, User
 from .test_views import (DESCRIPTION, FIRST_TITLE, SLUG, TEXT_ONE, USER_ONE,
                          USER_TWO)
 
@@ -163,26 +163,3 @@ class PostCreateFormTests(TestCase):
             comments_count + 1,
         )
 
-    # def test_new_post_appears_in_the_feed(self):
-    #     """
-    #         Новая запись пользователя появляется в ленте тех, кто на него подписан
-    #         и не появляется в ленте тех, кто не подписан
-    #     """
-    #     # Создаем связь подписчика и автора
-    #     follow = Follow.objects.create(
-    #         user=self.user,
-    #         author=self.user_two
-    #     )
-    #     # Получаем все посты автора для подписчика
-    #     response = self.authorized_client.get(
-    #         reverse(f'profile/{self.user_two}/follow/')
-    #     )
-    #     # Считаем количество записей автора
-    #     posts_count = len(response.context['page_obj'])
-    #     # Создаем новый пост
-    #     post = Post.objects.create(
-    #         author=self.user_two,
-    #         text=TEXT_ONE,
-    #         group=self.group,
-    #     )
-    #     self.assertEqual(len(response.context['page_obj']), posts_count + 1)
