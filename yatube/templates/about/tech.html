@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Технологии{% endblock %}
+{% block content %}
+{% comment %} Колонки с отступом сверху и снизу {% endcomment %}
+<div class="row">
+  <h1>Вот что я умею</h1>
+  {% comment %}
+    Боковой блок со списком технологий
+    Займет всю ширину блока на мобильном
+    и 25% при размерах экрана ≥768px
+  {% endcomment %}
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        Python - на мой взгляд лучший из языков программирования, ведь он достаточно мощный, чтобы решать
+        сложные задачи, и имеет доступный синтаксис.
+      </li>
+      <li class="list-group-item">
+        Django - сильный фрейморк, который я сейчас остваиваю...
+      </li>
+    </ul>
+  </aside>
+  <article class="col-12 col-md-9">
+    <p>Для создания данного сайта были использованны передовые технологии человеческой науки, ну и я</p>
+  </article>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+<h1>Hello, I am the author</h1>
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <span class="border border-2">
+        <img src="{% static 'img/avatar.png' %}"
+          width="330" height="420"
+          class="rounded" alt="">
+      </span>
+    </div>
+    <div class="col">
+      <p>
+        Hey! My name is Kirill Svitsov and I would like to tell you a little about myself.
+        I was born and raised in the small town of Kirov, where I graduated from the
+        institute as a civil engineer. After he served in the army in the Kremlin and went
+        on a journey through life. For as long as I can remember, I always dreamed of living in Europe,
+        in connection with which I moved to St. Petersburg, a city that is geographically and mentally
+        closest to Europe. There I got a job in one interesting startup, in which I managed to become
+        a commercial director, but the incidents in Ukraine changed the whole world, including my life.
+        And now I live in Kazakhstan, as I have long dreamed of studying to be a programmer at Yandex, and I
+        hope that in a couple of months I will move to Portugal. Let this message be a time capsule that I
+        will open in a couple of years, working as a middle in a great company in Portugal, enjoying life
+        from everything around me.
+      </p>
+      <p>Links to my accounts:</p>
+      <div class="col">
+        <a class="navbar-brand" href="https://github.com/Kirill-Svitsov" target="_blank">
+          <img
+            src="{% static 'img/git.svg' %}"
+            width="50" height="50" class="d-inline-block align-top"
+            alt="">
+        </a>
+        <a class="navbar-brand" href="https://vk.com/id159844725" target="_blank">
+          <img
+            src="{% static 'img/vk.svg' %}"
+            width="50" height="50" class="d-inline-block align-top"
+            alt="">
+        </a>
+        <a class="navbar-brand" href="https://www.linkedin.com/in/kirill-svitsov-706b8025b/" target="_blank">
+          <img
+            src="{% static 'img/linkedin.svg' %}"
+            width="50" height="50" class="d-inline-block align-top"
+            alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

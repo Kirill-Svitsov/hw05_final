@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% block title %}
+  Посты автора
+{% endblock title %}
+{% block content %}
+  <h1 >Последние обновления на сайте</h1>
+  <p>Главная страница</p>
+  {% cache 20 index_page %}
+    {% include 'includes/switcher.html' %}
+    {% for post in page_obj %}
+      {% include 'includes/post.html' %}
+    {% endfor %}
+  {% endcache %}
+{% endblock content %}
