@@ -26,7 +26,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    posts = group.posts.order_by('-pub_date')
+    posts = group.posts.all()
     paginator = Paginator(posts, num_of_pub)
     page_obj = general_paginator(request, paginator)
     context = {
@@ -38,7 +38,7 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    post_list = author.posts.order_by('-pub_date')
+    post_list = author.posts.all()
     paginator = Paginator(post_list, num_of_pub)
     if request.user.is_authenticated:
         following = Follow.objects.filter(
@@ -115,8 +115,7 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    authors = request.user.follower.values('author')
-    posts = Post.objects.filter(author__in=authors)
+    posts = Post.objects.filter(author__following__user=request.user)
     paginator = Paginator(posts, num_of_pub)
     page_obj = general_paginator(request, paginator)
     context = {

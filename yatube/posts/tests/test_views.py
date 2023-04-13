@@ -30,7 +30,6 @@ POSTS_PAGINATOR_SECOND_PAGE = 5
 POSTS_OF_GROUP_PAGE = 2
 
 
-# python3 manage.py test posts.tests.test_views для запуска локальных тестов
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostViewsTests(TestCase):
     @classmethod
@@ -82,12 +81,12 @@ class PostViewsTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
+        cache.clear()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.second_user)
 
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
-        cache.clear()
         templates_pages_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:profile',
@@ -101,6 +100,7 @@ class PostViewsTests(TestCase):
                         'post_id': self.post.id}): 'posts/create_post.html',
             reverse('posts:group_list',
                     kwargs={'slug': SLUG}): 'posts/group_list.html',
+            reverse('posts:follow_index'): 'posts/follow.html',
         }
         for reverse_name, template in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
@@ -109,7 +109,6 @@ class PostViewsTests(TestCase):
 
     def test_post_create_page_show_correct_context(self):
         """Шаблон post_create сформирован с правильным контекстом."""
-        cache.clear()
         response = self.authorized_client.get(reverse('posts:post_create'))
         form_fields = {
             'text': forms.fields.CharField,
@@ -123,24 +122,21 @@ class PostViewsTests(TestCase):
 
     def test_index_page_show_correct_context(self):
         """Шаблон index сформирован с правильным контекстом."""
-        cache.clear()
         response = self.authorized_client.get(reverse('posts:index'))
         self.assertIn('page_obj', response.context)
 
     def test_group_list_pages_show_correct_context(self):
         """Шаблон group_list сформирован с правильным контекстом."""
-        cache.clear()
         response = self.authorized_client.get(
             reverse('posts:group_list', kwargs={'slug': self.group.slug})
         )
         post_group_list = list(Post.objects.filter(
             group_id=self.group.id
-        )[:10])
+        )[:num_of_pub])
         self.assertEqual(list(response.context['page_obj']), post_group_list)
 
     def test_profile_page_show_correct_context(self):
         """Шаблон profile сформирован с правильным контекстом."""
-        cache.clear()
         response = self.authorized_client.get(reverse(
             'posts:profile', kwargs={'username': USER_TWO}))
         first_post = response.context['page_obj'][0]
@@ -153,7 +149,6 @@ class PostViewsTests(TestCase):
 
     def test_post_detail_page_show_correct_context(self):
         """Шаблон post_detail сформирован с правильным контекстом."""
-        cache.clear()
         response = self.authorized_client.get(reverse(
             'posts:post_detail', kwargs={'post_id': self.post.pk}))
         first_post = response.context['post']
@@ -161,7 +156,6 @@ class PostViewsTests(TestCase):
 
     def test_post_edit_page_show_correct_context(self):
         """Шаблон post_edit сформирован с правильным контекстом."""
-        cache.clear()
         response = self.authorized_client.get(reverse(
             'posts:post_edit', args=(self.post.pk,)))
         form_fields = {
@@ -175,13 +169,11 @@ class PostViewsTests(TestCase):
 
     def test_paginator_first_page_contains_ten_records(self):
         """Первая страница содержит 10 записей."""
-        cache.clear()
         response = self.client.get(reverse('posts:index'))
         self.assertEqual(len(response.context['page_obj']), num_of_pub)
 
     def test_paginator_second_page_contains_five_records(self):
         """Вторая страница содержит 5 записей."""
-        cache.clear()
         response = self.client.get(reverse('posts:index') + '?page=2')
         self.assertEqual(
             len(response.context['page_obj']),
@@ -190,7 +182,6 @@ class PostViewsTests(TestCase):
 
     def test_paginator_group_list_contains_two_records(self):
         """Страница группы содержит 2 записи."""
-        cache.clear()
         response = self.client.get(
             reverse('posts:group_list', kwargs={'slug': SECOND_SLUG})
         )
@@ -201,7 +192,6 @@ class PostViewsTests(TestCase):
 
     def test_paginator_profile_contains_two_records(self):
         """Страница профиля содержит 2 записи."""
-        cache.clear()
         response = self.client.get(
             reverse('posts:profile', kwargs={'username': USER_TWO})
         )
@@ -212,7 +202,6 @@ class PostViewsTests(TestCase):
 
     def test_index_page_cache(self):
         """Тест cache на странице index."""
-        cache.clear()
         response = self.authorized_client.get(reverse('posts:index'))
         posts = response.content
         Post.objects.create(
@@ -244,7 +233,7 @@ class FollowTests(TestCase):
         self.client_auth_user.force_login(self.user)
         self.client_auth_author.force_login(self.author)
 
-    def _subscribe(self, subscribe: bool, author: str) -> None:
+    def _subscribe(self, subscribe, author) -> None:
         """
         Метод позволяет подписаться на автора или отписаться
         """
@@ -267,10 +256,11 @@ class FollowTests(TestCase):
         """
         Авторизованный пользователь может подписываться на других пользователей
         """
+        null_count = Follow.objects.count()
         self._subscribe(True, self.author)
         self.assertEqual(
             Follow.objects.filter(user=self.user, author=self.author).count(),
-            1
+            null_count + 1
         )
 
     def test_ability_unsubscribe(self):
@@ -278,8 +268,9 @@ class FollowTests(TestCase):
         Авторизованный пользователь может отписаться от других пользователей
         """
         self._subscribe(True, self.author)
+        count_follower = Follow.objects.count()
         self._subscribe(False, self.author)
-        self.assertEqual(Follow.objects.all().count(), 0)
+        self.assertEqual(Follow.objects.all().count(), count_follower - 1)
 
     def test_post_in_news_subscriber(self):
         """

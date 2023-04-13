@@ -12,11 +12,8 @@ from ..models import Group, Post, User
 from .test_views import (DESCRIPTION, FIRST_TITLE, SLUG, TEXT_ONE, USER_ONE,
                          USER_TWO)
 
-User = get_user_model()
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
-
-# python3 manage.py test posts.tests.test_forms для запуска локальных тестов
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostCreateFormTests(TestCase):
@@ -127,7 +124,7 @@ class PostCreateFormTests(TestCase):
 
     def test_guest_client_create_comment(self):
         """Создание комментария невозможно неавторизованному пользователю"""
-        post = Post.objects.get(pk=self.post.pk)
+        post = self.post
         comments_count = post.comments.count()
         form_data = {
             'text': 'Тестовый комментарий'
@@ -142,7 +139,7 @@ class PostCreateFormTests(TestCase):
 
     def test_auth_client_create_comment(self):
         """Авторизованный пользователь может оставить комментарий"""
-        post = Post.objects.get(pk=self.post.pk)
+        post = self.post
         comments_count = post.comments.count()
         # Заполняем форму для комментария
         form_data = {'text': 'Текст комментария'}

@@ -3,14 +3,11 @@ from http import HTTPStatus
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 
-from ..models import Group, Post
+from ..models import Group, Post, User
 from .test_views import DESCRIPTION, FIRST_TITLE, SLUG, TEXT_ONE, USER_ONE
 
-User = get_user_model()
 unexisting_page = '/unexisting_page/'
 
-
-# python3 manage.py test posts.tests.test_urls для запуска локальных тестов
 
 class PostURLTests(TestCase):
     @classmethod
@@ -41,6 +38,7 @@ class PostURLTests(TestCase):
             f'/posts/{self.post.pk}/edit/': 'posts/create_post.html',
             '/create/': 'posts/create_post.html',
             f'{unexisting_page}': 'core/404.html',
+            '/follow/': 'posts/follow.html',
         }
         for address, template in templates_url_names.items():
             with self.subTest(address=address):
@@ -67,30 +65,15 @@ class PostURLTests(TestCase):
 
     def test_post_edit_and_create_url_exists_at_desired_location(self):
         """
-            Страницы posts/<int:post_id>/edit/, create/ доступны
-            авторизованному пользователю.
+            Страницы posts/<int:post_id>/edit/, create/, follow/
+            доступны авторизованному пользователю.
         """
         url = {
             f'/posts/{self.post.pk}/edit/',
             '/create/',
+            '/follow/'
         }
         for address in url:
             with self.subTest(address=address):
                 response = self.authorized_client.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_authorized_client_can_follow(self):
-        """
-            Страница '/follow/',
-            доступна авторизованному пользователю.
-        """
-        url = '/follow/'
-        response = self.authorized_client.get(url)
-        second_response = self.client.get(url)
-        # Проверяем, что авторизованному пользователю доступна страница
-        # с подписками
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'posts/follow.html')
-        # Проверяем, что не авторизованному пользователю при запросе
-        # страницы с подписками происходит редирект
-        self.assertEqual(second_response.status_code, HTTPStatus.FOUND)

@@ -1,13 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from ..models import NUM_OF_WORDS, Group, Post
+from ..models import NUM_OF_WORDS, Group, Post, User
 from .test_views import DESCRIPTION, FIRST_TITLE, SLUG, TEXT_ONE, USER_ONE
 
-User = get_user_model()
 
-
-# python3 manage.py test posts.tests.test_models для запуска локальных тестов
 class PostModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
