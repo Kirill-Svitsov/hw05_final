@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from ..models import NUM_OF_WORDS, Group, Post, User
