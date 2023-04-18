@@ -13,10 +13,8 @@ SECRET_KEY = '$&eq=_s6s(#w6oelemqmg^n7x!n7)^x3w+=tywr-fcxrqreb^g'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '[::1]',
-    'testserver',
+    'www.ptolemei.pythonanywhere.com',
+    'ptolemei.pythonanywhere.com'
 ]
 
 # Application definition
