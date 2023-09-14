@@ -1,9 +1,57 @@
-# hw05_final
+# Yatube
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+Yatube - это веб-приложение для обмена записями в блоге. Здесь вы можете создавать записи, комментировать их, подписываться на интересных авторов и многое другое. Присоединяйтесь к нашему сообществу и делитесь своими мыслями!
 
-Команды для запуска локальных тестов:
-python3 manage.py test posts.tests.test_forms
-python3 manage.py test posts.tests.test_models
-python3 manage.py test posts.tests.test_urls
-python3 manage.py test posts.tests.test_views
+## Установка и запуск
+
+Чтобы запустить Yatube локально, выполните следующие шаги:
+
+1. Клонируйте репозиторий на свой локальный компьютер:
+
+   ```bash
+   git clone https://github.com/Kirill-Svitsov/hw05_final.git
+   ```
+Перейдите в директорию проекта:
+```
+cd hw05_final
+```
+
+Создайте и активируйте виртуальное окружение:
+```
+python -m venv venv
+source venv/bin/activate  # Для Linux/Mac
+venv\Scripts\activate    # Для Windows
+```
+
+Установите зависимости:
+```
+pip install -r requirements.txt
+```
+
+Создайте и примените миграции:
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+Запустите сервер разработки:
+```
+python manage.py runserver
+```
+Откройте браузер и перейдите по адресу http://127.0.0.1:8000/ для доступа к Yatube.
+
+Использование
+После запуска сервера вы сможете зарегистрироваться или войти в свой аккаунт.
+Создавайте записи, комментируйте их, подписывайтесь на интересных авторов и наслаждайтесь обменом мыслями с сообществом.
+Стек технологий
+Django
+Django REST framework
+PostgreSQL
+JavaScript
+HTML/CSS
+Docker
+Автор
+Kirill Svitsov - GitHub
+
+Лицензия
+Этот проект распространяется под лицензией MIT. См. файл LICENSE для получения дополнительной информации.
