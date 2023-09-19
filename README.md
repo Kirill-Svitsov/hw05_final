@@ -48,13 +48,15 @@ Open your browser and go to http://127.0.0.1:8000/ to access Yatube.
 Usage
 After starting the server, you can register or log in to your account. Create posts, comment on them, subscribe to interesting authors, and enjoy exchanging thoughts with the community.
 
-Technology Stack
-Django
-Django REST framework
-PostgreSQL
-JavaScript
-HTML/CSS
-Docker
+## Technologies
+- Django
+- Django REST framework
+- PostgreSQL
+- JavaScript
+- HTML/CSS
+- Docker
+
+
 Author
 Kirill Svitsov - GitHub
 
