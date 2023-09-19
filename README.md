@@ -1,57 +1,62 @@
+[![GitHub](https://img.shields.io/badge/GitHub-Kirill--Svitsov-blue)](https://github.com/Kirill-Svitsov)
 # Yatube
 
-Yatube - это веб-приложение для обмена записями в блоге. Здесь вы можете создавать записи, комментировать их, подписываться на интересных авторов и многое другое. Присоединяйтесь к нашему сообществу и делитесь своими мыслями!
+Yatube is a web application for sharing blog posts. Here you can create posts, comment on them, subscribe to interesting authors, and much more. Join our community and share your thoughts!
 
-## Установка и запуск
+## Installation and Launch
 
-Чтобы запустить Yatube локально, выполните следующие шаги:
+To run Yatube locally, follow these steps:
 
-1. Клонируйте репозиторий на свой локальный компьютер:
+1. Clone the repository to your local computer:
 
-   ```bash
-   git clone https://github.com/Kirill-Svitsov/hw05_final.git
-   ```
-Перейдите в директорию проекта:
+```
+git clone https://github.com/Kirill-Svitsov/hw05_final.git
+```
+Navigate to the project directory:
+
 ```
 cd hw05_final
 ```
 
-Создайте и активируйте виртуальное окружение:
+Create and activate a virtual environment:
+
 ```
 python -m venv venv
-source venv/bin/activate  # Для Linux/Mac
-venv\Scripts\activate    # Для Windows
 ```
-
-Установите зависимости:
+```
+source venv/bin/activate  # For Linux/Mac
+```
+```
+venv\Scripts\activate    # For Windows
+```
+Install dependencies:
 ```
 pip install -r requirements.txt
 ```
-
-Создайте и примените миграции:
+Create and apply migrations:
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
+Start the development server:
 
-Запустите сервер разработки:
 ```
 python manage.py runserver
 ```
-Откройте браузер и перейдите по адресу http://127.0.0.1:8000/ для доступа к Yatube.
+Open your browser and go to http://127.0.0.1:8000/ to access Yatube.
 
-Использование
-После запуска сервера вы сможете зарегистрироваться или войти в свой аккаунт.
-Создавайте записи, комментируйте их, подписывайтесь на интересных авторов и наслаждайтесь обменом мыслями с сообществом.
-Стек технологий
+Usage
+After starting the server, you can register or log in to your account. Create posts, comment on them, subscribe to interesting authors, and enjoy exchanging thoughts with the community.
+
+Technology Stack
 Django
 Django REST framework
 PostgreSQL
 JavaScript
 HTML/CSS
 Docker
-Автор
+Author
 Kirill Svitsov - GitHub
 
-Лицензия
-Этот проект распространяется под лицензией MIT. См. файл LICENSE для получения дополнительной информации.
+License
+This project is distributed under the MIT license. See the LICENSE file for additional information.
